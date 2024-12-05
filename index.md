@@ -5,6 +5,7 @@ description: |
 author: tairahikaru
 lang: ja
 date: 2024-12-06
+lastmodified: '2024-12-06'
 source: https://github.com/tairahikaru/texadvent2024/blob/main/index.md
 license: https://creativecommons.org/licenses/by-sa/4.0/
 comment: https://github.com/tairahikaru/texadvent2024/issues/1
@@ -149,7 +150,7 @@ ZR さんのブログ「[整数を読み飛ばす、続き (1)](https://zrbabble
 
 ついでに 2 についても触れておく。
 詳細は [ZR さんのブログ](https://zrbabbler.hatenablog.com/entry/20110403/1301854441)や[ここ](https://blog.miz-ar.info/2018/06/tex-noexpand-and-inserted-relax/)をみて欲しいが、ともかく
-```
+```tex
 \immediate\write16{\iftrue\expandafter\fi\ifnum0=0\fi}
 ```
 とすると `\relax` が表示されるのが問題だということである。
@@ -250,7 +251,7 @@ ZR さんのブログ「[整数を読み飛ばす、続き (1)](https://zrbabble
 ```
 
 というわけで平方をとって結局 100 ぐらいでよいだろう。
-そうすると `\gobblenum` の数値読み取り中に 99 個以上の別の `\gobblenum` や合計 100 個を越える `\fi` または `\else` が出現した場合は失敗するが、そうでない場合にはうまくいく：
+そうすると `\gobblenum` の数値読み取り中に 99 個以上の別の `\gobblenum` や合計 100 個を越える `\fi` または `\else` が出現した場合は失敗するが、そうでない場合にはおおむねうまくいく：
 
 ```tex
 \manyX\manyexpandafterfi{100}{\expandafter\fi}
