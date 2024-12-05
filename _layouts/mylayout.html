@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="{% if page.lang %}{{page.lang}}{% else %}ja{% endif %}">
+<head>
+  <meta charset="UTF-8">
+  {% seo title=false %}
+  {% feed_meta %}
+  {% if page.tag %}
+    <meta name="keywords" content="{{page.tag}}">
+  {% endif %}
+  {% if page.license %}
+    <link rel="license" href="{{page.license}}">
+  {% endif %}
+  <meta name="viewport" content="width=device-width, height=device-height">
+  <title>{{page.title}}</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://cdn.counter.dev/script.js" data-id="3a553085-2d9f-4343-abc1-320c582bc8fa" data-utcoffset="9"></script>
+  <script data-goatcounter="https://tairahikaru.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script async src="https://analytics.eu.umami.is/script.js" data-website-id="28c88fa1-5961-472f-adc6-8575a35160a8"></script>
+</head>
+<body>
+  <div class="markdown-body">
+    <aside id="right_side_bar">
+      <div id="right_side_bar_inner">
+        <a href="#page_title">ページ最上部へ</a>
+        {% include toc.html html=content %}
+        <a href="{{page.source}}">この記事のソース・履歴</a>
+      </div>
+    </aside>
+    <main>
+      <h1 id="page_title">
+        {% if page.htmltitle %}
+          {{ page.htmltitle }}
+        {% else %}
+          {{page.title}}
+        {% endif %}
+        {% if page.subtitle %}
+          <div id="sub_title">{{ page.subtitle }}</div>
+        {% endif %}
+      </h1>
+      <div id="meta_data">
+        <img src="https://tairahikaru.goatcounter.com/count?p=/pixel/{{ site.url }}{{ site.baseurl }}{{ page.url }}&t={{ page.title }}">
+        <p>{{ page.author }}</p>
+        <p>
+          {{ page.date }}
+          {% if page.lastmodified %}
+            (updated {{ page.lastmodified }})
+          {% endif %}
+        </p>
+      </div>
+      {{content}}
+      {% if page.comment %}
+        <h1><a href="{{ page.comment }}">コメント</a></h1>
+      {% endif %}
+      <script src="https://utteranc.es/client.js"
+              repo="tairahikaru/texadvent2024"
+              issue-term="pathname"
+              theme="github-light"
+              crossorigin="anonymous"
+              async>
+      </script>
+      <div id="cusdis_thread"
+        data-host="https://cusdis.com"
+        data-app-id="c23dde2d-7e20-4a42-82b3-b55e31516e51"
+        data-page-id="{{ page.id }}"
+        data-page-url="{{ site.url }}{{ site.baseurl }}{{ page.url }}"
+        data-page-title="{{ page.title }}"
+      ></div>
+      <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+      <div
+        data-chirpy-theme="system"
+        data-chirpy-comment="true"
+        id="chirpy-comment"
+      ></div>
+      <script defer src="https://chirpy.dev/bootstrapper.js" data-chirpy-domain="tairahikaru.github.io"></script>
+    </main>
+  </div>
+</body>
+</html>
