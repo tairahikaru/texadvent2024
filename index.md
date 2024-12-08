@@ -5,7 +5,7 @@ description: |
 author: tairahikaru
 lang: ja
 date: 2024-12-06
-lastmodified: '2024-12-06'
+lastmodified: '2024-12-08'
 source: https://github.com/tairahikaru/texadvent2024/blob/main/index.md
 license: https://creativecommons.org/licenses/by-sa/4.0/
 comment: https://github.com/tairahikaru/texadvent2024/issues/1
@@ -24,7 +24,8 @@ header-includes: |
 {% raw %}
 
 これは「[TeX ＆ LaTeX Advent Calendar 2024](https://adventar.org/calendars/10647)」の 6 日目の記事である。
-昨日は鴎海ねこさんの「[unicode-math ユーザーのための Unicode 文字入力補助](https://github.com/kmi-ne/TeX-MyTools/tree/main/unicode-math-snippets)」だった。明日のことはわからない。
+昨日は鴎海ねこさんの「[unicode-math ユーザーのための Unicode 文字入力補助](https://github.com/kmi-ne/TeX-MyTools/tree/main/unicode-math-snippets)」だった。
+明日は CareleSmith9 さんの「[LaTeX だけ勉強しても周辺知識が足りないよねという話](http://circle9tym.blog.fc2.com/blog-entry-444.html)」だ。
 
 この記事は [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)、記事中のコードはパブリックドメイン・無保証とする。
 
@@ -209,13 +210,15 @@ ZR さんのブログ「[整数を読み飛ばす、続き (1)](https://zrbabble
   \fi{#1}{#3}}
 ```
 
+\[2024-12-08] 以前の実装は非効率だったので改変。
+
 まずは `\gobblenum` の定義を次のように直す：
 
 ```tex
 \count255="7FFFFFFF
 \advance\count255 1
 \def\gobblenum{%
-  \manyexpandafterfi
+  \expandafter\manyfi
   \expandafter\fi\ifnum\count255<%
   \manyiftrue}
 ```
@@ -223,7 +226,7 @@ ZR さんのブログ「[整数を読み飛ばす、続き (1)](https://zrbabble
 この上で、以下の `100` の部分の数字を色々変えてみる。
 
 ```tex
-\manyX\manyexpandafterfi{100}{\expandafter\fi}
+\manyX\manyfi{100}{\fi}
 \manyX\manyiftrue{100}{\iftrue}
 \immediate\write16{%
   \iftrue\iftrue\iftrue\iftrue
@@ -231,33 +234,35 @@ ZR さんのブログ「[整数を読み飛ばす、続き (1)](https://zrbabble
   \fi\fi\fi\fi}
 ```
 
-わたしの環境では `10000` にしたあたりで `! TeX capacity exceeded, sorry [expansion depth=10000].` に引っかかった。
-この限界を超えたければ texmf.cnf を編集すればよいが、ともかく 10000 重にネストした条件判断は想定されてないようなので、例えば半分の 5000 とかにしてみる。
+わたしの環境では `791013` にしたあたりで `! TeX capacity exceeded, sorry [main memory size=5000000].` に引っかかった。
+この限界を超えたければ texmf.cnf を編集すればよいが、ともかく 800000 重にネストした条件判断を含むマクロは想定されてないようなので、例えば半分の 400000 とかにしてみる。
 
 ```tex
-\manyX\manyexpandafterfi{5000}{\expandafter\fi}
-\manyX\manyiftrue{5000}{\iftrue}
+\manyX\manyfi{400000}{\fi}
+\manyX\manyiftrue{400000}{\iftrue}
 \immediate\write16{%
   \iftrue\iftrue\iftrue\iftrue
     \gobblenum0%
   \fi\fi\fi\fi}
 ```
 
-うまくいってそうだが 1 つ問題がある：
+うまくいってそうだが 2 つ問題がある。
+まず実行速度が気になる。
+そしてもうひとつ：
 
 ```tex
 \immediate\write16{%
-  \gobblenum0\gobblenum0}% -> ! TeX capacity exceeded, sorry [expansion depth=10000].
+  \gobblenum0\gobblenum0\gobblenum0\gobblenum0\gobblenum0}% -> ! TeX capacity exceeded, sorry [main memory size=5000000].
 ```
 
-というわけで平方をとって結局 100 ぐらいでよいだろう。
-そうすると `\gobblenum` の数値読み取り中に 99 個以上の別の `\gobblenum` や合計 100 個を越える `\fi` または `\else` が出現した場合は失敗するが、そうでない場合にはおおむねうまくいく：
+というわけでざっくり平方をとって 1000 ぐらいでよいだろう。
+そうすると `\gobblenum` の数値読み取り中に 1000 個規模の `\gobblenum` や合計 1000 個を越える `\fi` または `\else` が出現した場合は失敗するが、そうでない場合にはおおむねうまくいく：
 
 ```tex
-\manyX\manyexpandafterfi{100}{\expandafter\fi}
-\manyX\manyiftrue{100}{\iftrue}
-\manyX\manymanyiftrue{101}{\iftrue}
-\manyX\manymanyfi{101}{\fi}
+\manyX\manyfi{1000}{\fi}
+\manyX\manyiftrue{1000}{\iftrue}
+\manyX\manymanyiftrue{1001}{\iftrue}
+\manyX\manymanyfi{1001}{\fi}
 \immediate\write16{%
   \manymanyiftrue
     \gobblenum0\gobblenum0\gobblenum0%
