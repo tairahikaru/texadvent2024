@@ -5,7 +5,7 @@ description: |
 author: tairahikaru
 lang: ja
 date: 2024-12-06
-lastmodified: '2024-12-08'
+lastmodified: '2024-12-26'
 source: https://github.com/tairahikaru/texadvent2024/blob/main/index.md
 license: https://creativecommons.org/licenses/by-sa/4.0/
 comment: https://github.com/tairahikaru/texadvent2024/issues/1
@@ -28,6 +28,8 @@ header-includes: |
 明日は CareleSmith9 さんの「[LaTeX だけ勉強しても周辺知識が足りないよねという話](http://circle9tym.blog.fc2.com/blog-entry-444.html)」だ。
 
 この記事は [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)、記事中のコードはパブリックドメイン・無保証とする。
+
+[2024-12-26] [その 2](https://tairahikaru.github.io/texadvent2024/ifcase.html) を書いた。
 
 # 限界を越える方法
 
